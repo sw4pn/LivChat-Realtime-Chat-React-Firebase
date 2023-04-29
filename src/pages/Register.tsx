@@ -1,5 +1,5 @@
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { useState, FormEvent, useEffect } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { auth, db, storage } from "../firebase/firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
@@ -28,8 +28,11 @@ const Register = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [loadingImage, setLoadingImage] = useState(false);
-  const [selectedFile, setSelectedFile] = useState();
-  const [preview, setPreview] = useState();
+
+  // const [selectedFile, setSelectedFile] = useState();
+  const [selectedFile, setSelectedFile] = useState<File | undefined>(undefined);
+
+  const [preview, setPreview] = useState<string | undefined>(undefined);
 
   const navigate = useNavigate();
   const {
@@ -171,7 +174,7 @@ const Register = () => {
     return () => URL.revokeObjectURL(objectUrl);
   }, [selectedFile]);
 
-  const onSelectFile = (e) => {
+  const onSelectFile = (e: ChangeEvent<HTMLInputElement>): void => {
     if (!e.target.files || e.target.files.length === 0) {
       setSelectedFile(undefined);
       return;
@@ -179,8 +182,6 @@ const Register = () => {
 
     setSelectedFile(e.target.files[0]);
   };
-
-  // console.log(selectedFile, preview);
 
   return (
     <div className="flex justify-between h-screen bg-sky-300">

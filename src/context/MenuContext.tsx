@@ -1,11 +1,21 @@
 import { useState, createContext, ReactNode } from "react";
 
-export const MenuContext = createContext({ isOpen: false });
+interface MenuContextType {
+  isOpen: boolean;
+  setOpen: () => void;
+}
+
+export const MenuContext = createContext<MenuContextType>({
+  isOpen: false,
+  setOpen: () => {
+    // nothing to do here
+  },
+});
 
 function MenuContextProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const setOpen = () => {
+  const setOpen = (): void => {
     setIsOpen(!isOpen);
   };
 

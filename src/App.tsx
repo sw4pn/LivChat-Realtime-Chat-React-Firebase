@@ -1,4 +1,4 @@
-import { useContext, ReactNode } from "react";
+import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
 import { Navigate, BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";

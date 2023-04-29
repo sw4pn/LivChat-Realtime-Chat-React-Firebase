@@ -10,29 +10,28 @@ interface ChatContextValue {
   dispatch: React.Dispatch<{ type: string; payload: any }>;
 }
 
-export const ChatContext = createContext({});
+const INITIAL_STATE = { chatId: null, user: null };
 
-// export const ChatContext = createContext<ChatContextValue>({
-//   data: {
-//     chatId: null,
-//     user: null,
-//   },
-//   dispatch: () => {
-//     // do nothing
-//   },
-// });
+export const ChatContext = createContext<ChatContextValue>({
+  data: { chatId: null, user: null },
+  dispatch: () => {
+    //do nothing
+  },
+});
 
-interface InitialState {
-  chatId: string | null;
-  user: User | null;
+interface ChatAction {
+  type: string;
+  payload?: any;
+}
+interface ChatState {
+  user: User;
+  chatId: string;
 }
 
 function ChatContextProvider({ children }: { children: ReactNode }) {
   const { currentUser } = useContext(AuthContext);
 
-  const INITIAL_STATE = { chatId: null, user: {} };
-
-  const chatReducer = (state, action) => {
+  const chatReducer = (state: ChatState, action: ChatAction) => {
     switch (action.type) {
       case "CHANGE_USER":
         return {
@@ -42,18 +41,6 @@ function ChatContextProvider({ children }: { children: ReactNode }) {
               ? currentUser?.uid + action.payload.uid
               : action.payload.uid + currentUser?.uid,
         };
-      // {
-      //   const { payload: user } = action;
-      //   const chatId =
-      //     currentUser?.uid && currentUser.uid > user.uid
-      //       ? currentUser.uid + user.uid
-      //       : user.uid + currentUser?.uid;
-
-      //   return {
-      //     user,
-      //     chatId,
-      //   };
-      // }
 
       default:
         return state;

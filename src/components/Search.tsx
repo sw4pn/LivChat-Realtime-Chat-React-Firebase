@@ -1,9 +1,4 @@
-import {
-  useState,
-  useContext,
-  SyntheticEvent,
-  BaseSyntheticEvent,
-} from "react";
+import { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import {
   collection,
@@ -21,13 +16,10 @@ import { User } from "firebase/auth";
 
 const Search = () => {
   const [username, setUsername] = useState("");
-  const [tommy, setTommy] = useState("");
 
   const [user, setUser] = useState<User | null>(null);
 
   const [error, setError] = useState(false);
-
-  const [errorMessage, setErrorMessage] = useState("");
 
   const { currentUser }: { currentUser: User | null } = useContext(AuthContext);
 
@@ -42,7 +34,6 @@ const Search = () => {
       if (querySnapshot.size > 0) {
         querySnapshot.forEach((doc) => {
           setError(false);
-          setErrorMessage("");
           setUser(doc.data() as User);
         });
       } else {
@@ -52,16 +43,15 @@ const Search = () => {
     } catch (err: any) {
       setUser(null);
       setError(true);
-      setErrorMessage(err?.message);
     }
   };
 
-  // const handleKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
-  const handleKey = (e: BaseSyntheticEvent) => {
-    // console.log(e.keyCode);
-    // alert(e.keyCode);
-    // setTommy(e.code);
-    if (e.code === "Enter" || e.keyCode === 13) {
+  const handleKey = (
+    e:
+      | React.KeyboardEvent<HTMLInputElement>
+      | React.KeyboardEvent<HTMLDivElement>
+  ) => {
+    if (e.key === "Enter" || e?.keyCode === 13) {
       handleSearch();
     }
   };
@@ -70,10 +60,14 @@ const Search = () => {
     const currentUserId = currentUser?.uid;
     const userId = user?.uid;
     //check whether the group(chats in firestore) exists, if not create
+    // const combinedId =
+    //   currentUserId && userId && currentUserId > userId
+    //     ? currentUser.uid + userId
+    //     : user?.uid + currentUser?.uid;
     const combinedId =
       currentUserId && userId && currentUserId > userId
-        ? currentUser.uid + userId
-        : user?.uid + currentUser?.uid;
+        ? `${currentUserId}${userId}`
+        : `${userId}${currentUserId}`;
 
     try {
       const res = await getDoc(doc(db, "chats", combinedId));
@@ -143,7 +137,6 @@ const Search = () => {
           </div>
         </div>
       )}
-      {tommy}
     </div>
   );
 };

@@ -30,8 +30,13 @@ const Input = () => {
       const uploadTask = uploadBytesResumable(storageRef, image);
 
       uploadTask.on(
-        (error) => {
-          //TODO: Handle error
+        "state_changed",
+        (snapshot) => {
+          // Handle progress updates if needed
+          console.log("snapshot(progress): ", snapshot);
+        },
+        (error: any) => {
+          console.log("error: ", error);
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {

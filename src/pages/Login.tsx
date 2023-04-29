@@ -26,8 +26,7 @@ const Login = () => {
     setLoading(true);
     try {
       await signInWithEmailAndPassword(auth, data.email, data.password).then(
-        (res) => {
-          // console.log(res.user)
+        () => {
           setLoading(false);
           navigate("/");
         }
@@ -68,17 +67,6 @@ const Login = () => {
           />
           <Clouds />
         </div>
-        {/* 
-	content: ' ';
-	position: absolute;
-	width: 0;
-	height: 0;
-  left: auto;
-	right: -40px;
-  top: 30px;
-	bottom: auto;
-	border: 20px solid;
-	border-color: #666 transparent transparent #666; */}
         <div className="absolute right-0 h-auto m-10 w-60 top-1/3">
           <div className="relative z-50 bg-yellow-100 border-4 before:z-50 rounded-3xl border-zinc-600 bubble">
             <div className="p-4 text-sm leading-6 whitespace-normal">
