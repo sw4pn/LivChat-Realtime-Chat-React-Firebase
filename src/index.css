@@ -1,3 +1,37 @@
+@import url("https://fonts.googleapis.com/css2?family=Exo:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&family=Sofia&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  background-color: #a7bcff;
+  font-family: "Roboto", "Helvetica Neue", sans-serif;
+}
+
+/* Right triangle, right side slightly down*/
+.bubble:before {
+  content: " ";
+  position: absolute;
+  width: 0;
+  height: 0;
+  left: auto;
+  right: -40px;
+  top: 30px;
+  bottom: auto;
+  border: 20px solid;
+  border-color: #666 transparent transparent #666;
+}
+.bubble:after {
+  content: " ";
+  position: absolute;
+  width: 0;
+  height: 0;
+  left: auto;
+  right: -30px;
+  top: 34px;
+  bottom: auto;
+  border: 16px solid;
+  border-color: lightyellow transparent transparent lightyellow;
+  z-index: inherit;
+}
